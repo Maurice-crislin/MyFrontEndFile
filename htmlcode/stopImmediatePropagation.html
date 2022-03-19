@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            p { height: 30px; width: 150px; background-color: #ccf; }
+            div {height: 30px; width: 150px; background-color: #cfc; }
+        </style>
+    </head>
+    <body>
+        <div>
+            <p>paragraph</p>
+        </div>
+        <script>
+            document.querySelector("div").addEventListener("click", (event) => {
+              alert("我是div元素,我是p元素的上层元素");
+            }, true);
+            const p = document.querySelector('p')
+            p.addEventListener("click", (event) => {
+              alert("p元素上被绑定的第一个捕获阶段监听函数");
+            }, true);
+
+            p.addEventListener("click", (event) => {
+              event.stopImmediatePropagation();//没有阻止自身事件处理器函数继续执行，会阻止在同一元素上绑定的其他事件处理器函数执行
+              alert("p元素上被绑定的第二个捕获阶段监听函数");
+              alert("之后还会出现")
+            }, true);
+
+            p.addEventListener("click",(event) => {
+              alert("p元素上被绑定的第三个捕获阶段监听函数");
+            }, true);
+
+            p.addEventListener("click", (event) => {
+              alert("我是p元素上被绑定的第一个冒泡阶段监听函数");
+            }, false);
+
+            p.addEventListener("click", (event) => {
+              alert("我是p元素上被绑定的第二个冒泡阶段监听函数");
+            }, false);
+
+            p.addEventListener("click",(event) => {
+              alert("我是p元素上被绑定的第三个冒泡阶段监听函数");
+            }, false);
+
+            document.querySelector("div").addEventListener("click", (event) => {
+              alert("我是div元素,我是p元素的上层元素");
+            }, false);
+        </script>
+    </body>
+</html>
