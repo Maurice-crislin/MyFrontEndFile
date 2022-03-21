@@ -1,3 +1,3 @@
-const returnObj=()=>[{id:"wuwhwuwu","name":"cococ"}];
+const returnObj=()=>({id:"wuwhwuwu","name":"cococ"});
 
 returnObj();

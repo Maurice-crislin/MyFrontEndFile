@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            p { height: 30px; width: 150px; background-color: #ccf; }
+            div {height: 30px; width: 150px; background-color: #cfc; }
+        </style>
+    </head>
+    <body>
+        <div>
+            <p>paragraph</p>
+        </div>
+        <script>
+            window.onerror=function(event,source,line,col,error){
+                console.log("A",event,source,line,col,error)
+            }
+            window.addEventListener("error",function(event){
+                console.log("B",event)
+            })
+        </script>
+        <script>
+            throw new Error("出错了啦")
+        </script>
+    </body>
+</html>
