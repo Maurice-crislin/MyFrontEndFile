@@ -1,7 +1,6 @@
 
 
 const Child=()=>{
-    
     return (
         <div>
             childwwwwwwwwwwwwwww

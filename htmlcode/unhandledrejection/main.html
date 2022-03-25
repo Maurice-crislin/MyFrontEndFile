@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            p { height: 30px; width: 150px; background-color: #ccf; }
+            div {height: 30px; width: 150px; background-color: #cfc; }
+        </style>
+    </head>
+    <body>
+        <div>
+            <p>paragraph</p>
+        </div>
+        <script>
+            
+            window.addEventListener("unhandledrejection",function(event){
+                event.preventDefault();//取消默认行为 eg：往控制台里打印  未处理的promise reject 
+                //经测试有用，控制台里的飘红无了
+                console.log("event.reason",event.reason)//event.reason 故意失败的,wuhuhuu
+                console.log("event.promise",event.promise)
+                //Promise {<rejected>: '故意失败的,wuhuhuu'}
+                            // [[Prototype]]: Promise
+                            // [[PromiseState]]: "rejected"
+                            // [[PromiseResult]]: "故意失败的,wuhuhuu"
+            })
+        </script>
+        <script>
+            new Promise((resolve,reject)=>{
+                resolve("正常成功1")
+            })
+            new Promise((resolve,reject)=>{
+                reject("故意失败的,wuhuhuu")
+            })
+            new Promise((resolve,reject)=>{
+                resolve("正常成功2")
+            })
+        </script>
+        
+    </body>
+</html>

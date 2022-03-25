@@ -1,0 +1,28 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            div {height: 30px; width: 150px; background-color: #cfc; }
+        </style>
+    </head>
+    <body>
+        <div>
+            <image src=":ewfwef" onerror='console.log("悲")'></image>
+        </div>
+        <script>
+            window.addEventListener('error',function(event){
+                let target=event.target||event.srcElement;
+                let flag=target instanceof HTMLScriptElement
+                ||target instanceof HTMLLinkElement
+                ||target instanceof HTMLImageElement;
+                if(!flag) console.log("不是资源加载错误");
+                let errorUrl=target.href||target.url;
+                console.log("event",event);
+                console.log("是资源加载错误",errorUrl);
+            },true)
+        </script>
+        
+    </body>
+</html>

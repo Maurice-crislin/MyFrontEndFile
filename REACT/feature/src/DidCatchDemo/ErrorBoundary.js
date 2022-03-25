@@ -7,7 +7,8 @@ export default class ErrorBoundary extends React.Component{
     
       static getDerivedStateFromError(error) {
         // 更新 state 使下一次渲染可以显示降级 UI
-        console.log(error)
+        console.log(this)
+        //console.log(error)最好不要执行副作用
         return { hasError: true };
       }
     
