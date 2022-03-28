@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            p { height: 30px; width: 150px; background-color: #ccf; }
+            div {height: 30px; width: 150px; background-color: #cfc; }
+        </style>
+    </head>
+    <body>
+        <div>
+            <a href="www.163.com" onclick="console.log('阻止原生事件1~');return false "> 点击我1 </a>
+            <a href="www.163.com" onclick="fn()"> 点击我2 </a>
+            <a  id="a3" href="www.163.com" > 点击我3 </a>
+            <a  id="a4" href="www.163.com" > 点击我4 </a>
+        </div>
+        <script>
+            
+            function fn(){  
+                console.log(' 阻止原生事件2~')
+                //event.returnValue=false//经测试有用
+                event.preventDefault();//经测试有用
+            }  
+            const a3=document.getElementById("a3");
+            a3.onclick=function(e){
+                console.log(' 阻止原生事件3~')
+                //e.returnValue=false;//经测试有用
+                e.preventDefault();//经测试有用
+            }
+            const a4=document.getElementById("a4");
+            a4.addEventListener("click",function(event){  
+                console.log(' 阻止原生事件4~')
+                //event.returnValue=false;//经测试有用
+                event.preventDefault();//经测试有用
+            })
+        </script>
+        
+    </body>
+</html>
