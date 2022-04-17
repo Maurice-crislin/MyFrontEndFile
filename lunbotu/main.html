@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>轮播图</title>
+        <style>
+            .container{
+                position: relative;
+            }
+            .container img{
+                position: absolute; /*让图片显示在同一位置*/
+                opacity: 0;
+                transition: 3s;/*消失的速度*/
+            }
+            .container img.active{
+                opacity: 1;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <div class="container">             
+            <img src="./1.jpg" class="active" ></img>       
+            <img src="./2.jpg" ></img>
+            <img src="./3.jpg" ></img>    
+            <img src="./4.jpg" ></img>   
+        </div>
+        <script>
+            var ImgList = document.querySelectorAll('.container img');
+            var i=0;
+            function AUTOPlay(){
+                if(i<ImgList.length){
+                    ImgList[i].className='';
+                    
+                    i++;
+                    i%=ImgList.length;
+                    
+                    ImgList[i].className='active';
+                    
+                }
+            }
+            setInterval(AUTOPlay,3000);
+        </script>
+
+    </body>
+</html>
