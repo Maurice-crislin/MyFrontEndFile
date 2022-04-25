@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <title>手写jsonp跨域</title>
+    </head>
+    <body>
+        <script>
+            function myCallback(data){
+            console.log('普通jsonp调用了调用了',data);//现在其实只会返回一个空数组
+            }
+        </script>
+        <script src="https://photo.sina.cn/aj/index?page=1&cate=recommend&callback=myCallback"></script>
+        <!-- 以上是普通jsonp示例 -->
+
+
+
+
+        <script>       
+            //手写jsonp就是要动态构造一个script标签来发送请求到后端，响应是script脚本，内容是调用本地的响应处理函数
+                function myJsonp(url,paramsData={},callbackFnName='callback'){//callbackFnName可以不填，并且在链式调用中这个名字没有体现出来
+
+                    let paramList=[];
+
+                    for(let key in paramsData){
+                        paramList.push(`${key}=${paramsData[key]}`);
+                    }
+
+                    paramList.push(`callback=${callbackFnName}`);
+
+                    let script=document.createElement('script');
+                    script.src=url+'?'+paramList.join('&');
+                    document.body.appendChild(script);
+
+                    
+
+                    return new Promise((resolve,reject)=>{
+                        window[callbackFnName]=(data)=>{
+                            try{
+                                resolve(data)
+                            }catch(e){
+                                reject(e);
+                            }finally{
+                                script.parentNode.removeChild(script);//移除script元素
+                            }
+                        }
+                    })
+                }
+
+                myJsonp('https://photo.sina.cn/aj/index',
+                {page:1,cate:'recommend'})
+                .then((res)=>console.log("手写jsonp的调用",res))
+                .catch((err)=>console.log("可能出错了",err))
+
+        </script>
+        
+    </body>
+</html>

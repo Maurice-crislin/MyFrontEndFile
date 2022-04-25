@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>手写双向绑定</title>
+</head>
+<body>
+    <input type="text" id="ipt">
+    <script>
+       
+
+        let data={val:'默认值'};
+
+        let inputDom=document.getElementById('ipt');
+        
+
+        function warp(obj){
+            return new Proxy(obj,{
+                get(target,property){
+                    return target[property];
+                },
+                set(target,property,value){
+                    target[property]=value;
+                    inputDom.value=value;//在Model改变时同步修改View,   Model => View
+                }
+            })
+        }
+        data=warp(data);
+        inputDom.addEventListener('input',(e)=>{
+            data.val=e.target.value;// 在view改变时同步修改Model,     View => Model
+            console.log('data.val',data.val);
+        })
+
+
+        //实践验证：1.需要到控制台里面,   看view改变时,Model是不是 跟随改变
+        //     2.在控制台里修改data.val, 看Model改变时， view是不是 跟随改变
+    </script>
+</body>
+</html>
+

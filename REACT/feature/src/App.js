@@ -1,14 +1,16 @@
 import './App.css';
 import React from 'react';
-import Autobatching from './autobatching/Autobatching'
-import NoUIAutobatching from './autobatching/NoUIAutobatching';
+import LayoutComponent from './MyHooksDemo/LayoutComponet';
+import LayoutComUseMyHooks from './MyHooksDemo/LayoutComUseMyHooks';
+import VirtualList from './VirtualListDemo/VirtualList';
 function App() {
   
   return (
     <div className="App">
       my world
-      <Autobatching/>
-      <NoUIAutobatching/>
+      <LayoutComponent/>
+      <LayoutComUseMyHooks/>
+      <VirtualList/>
     </div>
   );
 }

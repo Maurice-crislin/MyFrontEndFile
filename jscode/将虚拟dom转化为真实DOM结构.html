@@ -1,0 +1,89 @@
+<html>
+    <head>
+      <title>将虚拟dom转化为真实DOM结构</title>
+    </head>
+    <body>
+      <script>
+        /*{
+    tag: 'DIV',
+    attrs:{
+    id:'app'
+    },
+    children: [
+      {
+        tag: 'SPAN',
+        children: [
+          { tag: 'A', children: [] }
+        ]
+      },
+      {
+        tag: 'SPAN',
+        children: [
+          { tag: 'A', children: [] },
+          { tag: 'A', children: [] }
+        ]
+      }
+    ]
+  }
+  // 把上诉虚拟Dom转化成下方真实Dom
+  <div id="app">
+    <span>
+      <a></a>
+    </span>
+    <span>
+      <a></a>
+      <a></a>
+    </span>
+  </div>
+*/
+
+function render(vDom){
+    if(typeof vDom==='number'||typeof vDom==='string'){
+        return document.createTextNode(String(vDom));//叶子节点，创建文字节点
+    }
+    let dom=document.createElement(vDom.tag);
+    if(vDom.attrs){
+        for(let key in vDom.attrs){
+            dom.setAttribute(key,vDom.attrs[key])
+        }
+    }
+    if(vDom.children){
+        vDom.children.forEach((item)=>dom.appendChild(render(item)));
+    }
+    return dom;
+}
+let vDomList={
+    tag: 'DIV',
+    attrs:{
+    id:'app'
+    },
+    children: [
+      {
+        tag: 'SPAN',
+        children: [
+          { tag: 'A', children: [] },
+          { tag: 'SPAN', children: [
+              {tag:'footer',children:[
+                  {tag:'a',attrs:{href:'https://juejin.cn/search'},children:[
+                      {tag:'h1',children:['h1nhhhhhwuhuhu']}
+                  ]}
+              ]}
+          ] }
+
+        ]
+      },
+      {
+        tag: 'SPAN',
+        children: [
+          { tag: 'A', children: [] },
+          { tag: 'A', children: [] },
+          'wuhuh',
+          'wjhuhuuhhhh'
+        ]
+      }
+    ]
+  }
+document.body.appendChild(render(vDomList));
+      </script>
+    </body>
+</html>

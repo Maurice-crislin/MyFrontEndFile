@@ -1,0 +1,8 @@
+.contanier{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 300px;
+}
+*{
+    margin: 0 0 0 0;
+}

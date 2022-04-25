@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>图片懒加载</title>
+    </head>
+    <body>
+        
+        <img src="./loading.jpg" data-src="./1.jpg" ></img>       
+        <img src="./loading.jpg" data-src="./2.jpg" ></img>
+        <img src="./loading.jpg" data-src="./3.jpg" ></img>    
+        <img src="./loading.jpg" data-src="./4.jpg" ></img> 
+        <img src="./loading.jpg" data-src="./1.jpg" ></img>       
+        <img src="./loading.jpg" data-src="./2.jpg" ></img>
+        <img src="./loading.jpg" data-src="./3.jpg" ></img>    
+        <img src="./loading.jpg" data-src="./4.jpg" ></img> 
+        <img src="./loading.jpg" data-src="./1.jpg" ></img>       
+        <img src="./loading.jpg" data-src="./2.jpg" ></img>
+        <img src="./loading.jpg" data-src="./3.jpg" ></img>    
+        <img src="./loading.jpg" data-src="./4.jpg" ></img> 
+        
+        <script>
+            let imgList=[...document.querySelectorAll('img')],len=imgList.length;
+            console.log(imgList,imgList[0].dataset,imgList[0].dataset.src)
+            //  imgList[0].dataset 是DOMStringMap {src: './1.jpg'}
+            //  imgList[0].dataset.src       './1.jpg'
+
+            //lazyLoad的值是return的函数
+            let lazyLoad=(function(){
+
+                let count=0;//需要用闭包变量保持下来
+
+                return function(){
+                    let shouldDeleteIndex=[];
+                    imgList.forEach((img,index)=>{
+
+                    //懒加载的一个重点 是要知道什么时候图片是进入了可视区内
+                    if(img.getBoundingClientRect().top<=window.innerHeight){
+                        
+                        img.src=img.dataset.src;
+                        count++;
+                        shouldDeleteIndex.push(index);
+
+                        if(count==len){//全部加载完毕，可以清除scroll事件了
+                            window.removeEventListener('scroll',lazyLoad);
+                        }
+                    }
+                    })
+
+                    imgList=imgList.filter((img,index)=> !shouldDeleteIndex.includes(index));//imgList里清除掉已经赋src的img节点
+                }
+                
+            })();//立即执行函数
+
+            lazyLoad();//为了首屏图片需要事先加载
+            window.addEventListener('scroll',lazyLoad);
+        </script>
+    </body>
+</html>
