@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>transition</title>
+        <style>
+            .box{
+                width: 30vw;
+                height: 30vh;
+                background-color: aqua;
+                animation: changebox 5s ;
+                animation-direction: reverse;
+                animation-delay: 1s;
+                animation-fill-mode:none;
+            }
+            @keyframes changebox {
+                10% {
+                    background: red;
+                }
+                50% {
+                    width: 80px;
+                }
+                70% {
+                    border: 15px solid yellow;
+                }
+                100% {
+                    width: 180px;
+                    height: 180px;
+                }
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <div class="box"></div>
+    </body>
+</html>
