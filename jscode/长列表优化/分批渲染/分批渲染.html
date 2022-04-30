@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <title>分批渲染实践</title>
+        <style>
+            #container{
+                height: 300px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+
+        </div>
+        <script>
+            let  data=new Array(10000).fill(0);
+            data=data.map((val,index)=>index);
+
+            let ul=document.getElementById('container');
+
+            let once=20;//规定一批多少个
+
+            function loop(curTotal,curIndex){
+                if(curTotal<=0)return false;
+
+                let pageCount=Math.min(once,curTotal);//实际上  一页多少个
+
+                window.requestAnimationFrame(function(){//在每一帧重绘之前调用这个函数
+                
+                    for(let i=curIndex;i<curIndex+pageCount;i++){
+                        let li=document.createElement('li');
+                        li.innerText=data[i];
+                        ul.appendChild(li);
+                    }
+
+                    loop(curTotal-pageCount,curIndex+pageCount)
+                })
+            }
+
+            loop(data.length,0);//触发循环，千万别忘了
+
+
+        </script>
+    </body>
+</html>

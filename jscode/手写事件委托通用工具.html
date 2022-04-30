@@ -1,0 +1,28 @@
+
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div id="proxyElement">
+            <button >wuhuhuhuhuh</button>
+        </div>
+        
+        <script>
+            //编写一个事件委托通用工具on。一个专门做事件委托的函数。
+
+            function on(type,proxyElement,clientSelector,callback){//client触发的事件委托给proxy去监听
+                if(!(proxyElement instanceof HTMLElement)){
+                    throw new Error('proxyElement必须是一个dom元素');
+                }
+                proxyElement.addEventListener(type,e=>{
+                    let curElment=e.target;//真正触发事件的元素，事件冒泡到proxyElement上被处理
+                    if(curElment.matches(clientSelector))callback(e);//如果真正触发事件的元素是client元素，真正触发事件
+                })
+            }
+            on('click',document.getElementById('proxyElement'),'button',function(e){
+                console.log('clicked',e);
+            })
+        </script>
+    </body>
+</html>

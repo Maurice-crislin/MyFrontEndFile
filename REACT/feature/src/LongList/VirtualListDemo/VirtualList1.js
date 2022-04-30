@@ -5,13 +5,11 @@ export default function VirtualList(){
     const [startIndex, setStartIndex] = useState(0);
     const containerRef=useRef();
     
-
     let  data=new Array(100000).fill(0);
     data=data.map((val,index)=>index);
     let itemHeight=22;
     let contanierHeight=300;//规定可视区域的高度
     
-   
     let limit=Math.ceil(contanierHeight/itemHeight);
     //limit向上取整，半露不露的也要给我渲染了
 
@@ -34,8 +32,6 @@ export default function VirtualList(){
     },[startIndex]);
 
 
-    
-
     const  handleSrcoll = useCallback(throttle(function () {
 
         // 注意这个对应的是可视区第一个元素的索引值，而不是第多少个元素
@@ -45,26 +41,8 @@ export default function VirtualList(){
         if (currentIndex !== startIndex) {         
             setStartIndex(currentIndex);
         }
-    },0), [startIndex])
-    //虚拟列表很依赖于滚动事件，考虑到用户可能会滑动很快，我们在用节流优化的时候事件必须要设置的够短，否则还是会出现白屏现象。
-
-
-    // 利用请求动画帧做了一个节流优化
-let then = useRef(0)
-const boxScroll = () => {
-  const now = Date.now()
-  /**
-   * 这里的等待时间不宜设置过长，不然会出现滑动到空白占位区域的情况
-   * 因为间隔时间过长的话，太久没有触发滚动更新事件，下滑就会到padding-bottom的空白区域
-   * 电脑屏幕的刷新频率一般是60HZ，渲染的间隔时间为16.6ms，我们的时间间隔最好小于两次渲染间隔16.6*2=33.2ms，一般情况下30ms左右，
-   */
-  if (now - then.current > 30) {
-    then.current = now
-    // 重复调用scrollHandle函数，让浏览器在下一次重绘之前执行函数，可以确保不会出现丢帧现象
-    window.requestAnimationFrame(handleSrcoll)
-  }
-}
-
+    },100), [startIndex])
+//虚拟列表很依赖于滚动事件，考虑到用户可能会滑动很快，我们在用节流优化的时候事件必须要设置的够短，否则还是会出现白屏现象。
 
 
     function throttle(fn,time){
@@ -78,11 +56,25 @@ const boxScroll = () => {
         }
     }
 
- 
     return(
-        <div className='contanier' onScroll={boxScroll} ref={containerRef} >
+        <div className='contanier' onScroll={handleSrcoll} ref={containerRef} >
             <div style={topBlankFill}>{ItemList}</div>
         </div>
     )
 }
 
+//     // 利用请求动画帧做了一个节流优化
+//     let then = useRef(0)
+//     const boxScroll = () => {
+//     const now = Date.now()
+//   /**
+//    * 这里的等待时间不宜设置过长，不然会出现滑动到空白占位区域的情况
+//    * 因为间隔时间过长的话，太久没有触发滚动更新事件，下滑就会到padding-bottom的空白区域
+//    * 电脑屏幕的刷新频率一般是60HZ，渲染的间隔时间为16.6ms，我们的时间间隔最好小于两次渲染间隔16.6*2=33.2ms，一般情况下30ms左右，
+//    */
+//   if (now - then.current > 30) {
+//     then.current = now
+//     // 重复调用scrollHandle函数，让浏览器在下一次重绘之前执行函数，可以确保不会出现丢帧现象
+//     window.requestAnimationFrame(handleSrcoll)
+//   }
+// }
