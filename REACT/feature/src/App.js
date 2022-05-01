@@ -4,6 +4,8 @@ import React from 'react';
 // import LayoutComUseMyHooks from './MyHooksDemo/LayoutComUseMyHooks';
 // import VirtualList1 from './LongList/VirtualListDemo/VirtualList1';
 import VirtualList2 from './LongList/VirtualListDemo/VirtualList2';
+import ImmutableTest from './immutableDemo/ImmutableTest';
+import UseImmerTest from './immutableDemo/UseImmerTest';
 function App() {
   
   return (
@@ -13,6 +15,8 @@ function App() {
       <LayoutComUseMyHooks/> */}
       {/* <VirtualList1/> */}
       <VirtualList2/>
+      {/* <ImmutableTest/> */}
+      <UseImmerTest/>
     </div>
   );
 }
