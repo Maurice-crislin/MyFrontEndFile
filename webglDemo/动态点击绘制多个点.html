@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <title>动态点击绘制多个点</title>
+        <script>
+            var webgl,webglDiv;
+            var vertexString=`
+            attribute vec4 a_position;
+            
+            void main(){
+                gl_Position=a_position;
+                gl_PointSize=20.0;//点的大小
+            }
+            `;
+
+            var fragmentString=`
+            void main(){
+                gl_FragColor=vec4(0.6,0.3,0.3,0.6);//点的颜色
+            }
+            `;
+            //入口函数
+            function init(){
+                initWebgl();
+                initShader();
+                initBuffer();
+                draw();
+            }
+            function initWebgl(){
+                webglDiv = document.getElementById('webglCanvas');
+                webgl = webglDiv.getContext('webgl');
+                //webgl.viewport(0,0,webglDiv.clientWidth,webglDiv.clientHeight);
+                //用来设置视口，即指定从标准设备到窗口坐标的x、y仿射变换。
+
+                //当你第一次创建WebGL上下文的时候，视口的大小将和canvas的大小是匹配的，所以可以不用设置视口
+                //然而，如果你重新改变了canvas的大小，你需要告诉WebGL上下文设定新的视口。在这里，你可以使用gl.viewport。
+            }
+            
+            function initShader(){
+
+                let vsshader=webgl.createShader(webgl.VERTEX_SHADER);//用于创建一个 WebGLShader 着色器对象，
+                let fsshader=webgl.createShader(webgl.FRAGMENT_SHADER);
+
+                webgl.shaderSource(vsshader,vertexString);//容器 容器文本
+                webgl.shaderSource(fsshader,fragmentString);
+
+                webgl.compileShader(vsshader);
+                webgl.compileShader(fsshader);
+
+                let program=webgl.createProgram();//方法用于创建和初始化一个 WebGLProgram 对象。
+
+                webgl.attachShader(program,vsshader);//方法负责往 WebGLProgram 添加一个片段或者顶点着色器。
+                webgl.attachShader(program,fsshader);
+
+                webgl.linkProgram(program);//链接给定的WebGLProgram，从而完成为程序的片元和顶点着色器准备GPU代码的过程。
+                webgl.useProgram(program);//这一句很重要，不然不会出现所绘制的矩形
+                //将定义好的WebGLProgram 对象添加到当前的渲染状态中。
+
+                webgl.program=program;
+
+            }
+            var points=[];
+            function initBuffer(){
+                let pointPosition = new Float32Array([40.0,100.0,0.0,1.0]);//点的位置
+                let aPosition=webgl.getAttribLocation(webgl.program,'a_position');
+
+                webglDiv.addEventListener('mousedown',function(e){
+                    let x=e.clientX,y=e.clientY;
+                    let rect=e.target.getBoundingClientRect();
+                    let pointx=(x-rect.left-this.clientWidth/2)/(this.clientWidth/2);
+                    let pointy=-(y-rect.top-this.clientHeight/2)/(this.clientHeight/2);
+                    points.push(pointx,pointy,0,1.0);
+
+                    let pointPosition=new Float32Array(points);
+
+                    let pointBuffer=webgl.createBuffer();//创建缓冲区
+                    webgl.bindBuffer(webgl.ARRAY_BUFFER,pointBuffer);//绑定缓冲区
+                    webgl.bufferData(webgl.ARRAY_BUFFER,pointPosition,webgl.STATIC_DRAW);//向缓冲区对象写入数据
+
+                    webgl.enableVertexAttribArray(aPosition);//开启attribute变量
+                    //attribute变量是一种GLSL ES变量，被用来从外部向顶点着色器内传输数据，只有顶点着色器能够使用它
+                    webgl.vertexAttribPointer(aPosition,3,webgl.FLOAT,false,4*4,0*4);//将缓冲区对象分配给attribute变量
+
+                    
+                    draw(points.length/4);
+
+                })
+
+                webgl.vertexAttrib4fv(aPosition,pointPosition);
+
+            }
+            //绘制函数
+            function draw(count=1){
+                webgl.clearColor(0.0,0.0,0.0,1.0);
+                webgl.clear(webgl.COLOR_BUFFER_BIT);
+                webgl.drawArrays(webgl.POINTS,0,count);
+            }
+        </script>
+    </head>
+    <body onload="init()">
+        <canvas id="webglCanvas" width="500" height="400"></canvas>
+    </body>
+</html>

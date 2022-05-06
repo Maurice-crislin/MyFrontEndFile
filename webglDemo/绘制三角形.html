@@ -1,0 +1,95 @@
+<html>
+    <head>
+        <title>绘制三角形</title>
+        <script>
+            var webgl,webglDiv;
+            var vertexString=`
+            attribute vec4 a_position;
+    
+            void main(){
+                gl_Position=a_position;
+            }
+            `;
+
+            var fragmentString=`
+            void main(){
+                gl_FragColor=vec4(0.6,0.3,0.3,0.6);//点的颜色
+            }
+            `;
+            //入口函数
+            function init(){
+                initWebgl();
+                initShader();
+                let n=initBuffer();
+                draw(n);
+            }
+            function initWebgl(){
+                webglDiv = document.getElementById('webglCanvas');
+                webgl = webglDiv.getContext('webgl');
+                //webgl.viewport(0,0,webglDiv.clientWidth,webglDiv.clientHeight);
+                //用来设置视口，即指定从标准设备到窗口坐标的x、y仿射变换。
+
+                //当你第一次创建WebGL上下文的时候，视口的大小将和canvas的大小是匹配的，所以可以不用设置视口
+                //然而，如果你重新改变了canvas的大小，你需要告诉WebGL上下文设定新的视口。在这里，你可以使用gl.viewport。
+            }
+            
+            function initShader(){
+
+                let vsshader=webgl.createShader(webgl.VERTEX_SHADER);//用于创建一个 WebGLShader 着色器对象，
+                let fsshader=webgl.createShader(webgl.FRAGMENT_SHADER);
+
+                webgl.shaderSource(vsshader,vertexString);//容器 容器文本
+                webgl.shaderSource(fsshader,fragmentString);
+
+                webgl.compileShader(vsshader);
+                webgl.compileShader(fsshader);
+
+                let program=webgl.createProgram();//方法用于创建和初始化一个 WebGLProgram 对象。
+
+                webgl.attachShader(program,vsshader);//方法负责往 WebGLProgram 添加一个片段或者顶点着色器。
+                webgl.attachShader(program,fsshader);
+
+                webgl.linkProgram(program);//链接给定的WebGLProgram，从而完成为程序的片元和顶点着色器准备GPU代码的过程。
+                webgl.useProgram(program);//这一句很重要，不然不会出现所绘制的图形
+                //将定义好的WebGLProgram 对象添加到当前的渲染状态中。
+
+                webgl.program=program;
+
+            }
+           
+            function initBuffer(){
+                let aPsotion = webgl.getAttribLocation(webgl.program, "a_position");//方法返回了给定WebGLProgram对象中某属性的下标指向位置。
+                let arr=[
+                    -0.4,-0.3,0.0,1.0,
+                    0.4,-0.3,0.0,1.0,
+                    -0.4,0.3,0.0,1.0,
+                    -0.3,0.4,0.0,1.0,
+                    -0.2,0.5,0.0,1.0,
+                    0.8,0.9,0.0,1.0,
+                ];
+                let pointPosition = new Float32Array(arr);//点的位置
+
+                
+                let lineBuffer=webgl.createBuffer();
+                webgl.bindBuffer(webgl.ARRAY_BUFFER,lineBuffer);
+                webgl.bufferData(webgl.ARRAY_BUFFER,pointPosition,webgl.STATIC_DRAW);
+
+                webgl.enableVertexAttribArray(aPsotion);
+                let n=4;
+                webgl.vertexAttribPointer(aPsotion,n,webgl.FLOAT,false,n*4,n*0);// (n个值表示一个点)*(4个字节)
+                return arr.length/n;
+            }
+            //绘制函数
+            function draw(count=1){
+                webgl.clearColor(0.0,0.0,0.0,1.0);
+                webgl.clear(webgl.COLOR_BUFFER_BIT);
+                //webgl.drawArrays(webgl.TRIANGLES,0,count);//一系列单独三角形 0 1 2 一个三角形  3 4 5 一个三角形 点数%3余下来的点被忽略
+                //webgl.drawArrays(webgl.TRIANGLE_STRIP,0,count);//一系列带状三角形 三角带  012 213  234 逆时针
+                webgl.drawArrays(webgl.TRIANGLE_FAN,0,count);
+            }
+        </script>
+    </head>
+    <body onload="init()">
+        <canvas id="webglCanvas" width="500" height="400"></canvas>
+    </body>
+</html>
