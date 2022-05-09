@@ -1,0 +1,164 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>线条立方体</title>
+        <script id="vertexShader" type="x-shader/x-vertex">
+            attribute vec3 a_position;
+            
+            uniform mat4 mx;
+            uniform mat4 my;
+            void main() {
+                gl_Position = mx*my*vec4(a_position,1.0);
+                gl_PointSize = 10.0;
+            }
+        </script>
+        <script id="fragmentShader" type="x-shader/x-fragment">    
+            void main() {
+                gl_FragColor = vec4(0.1,0.9,0.8,0.9); 
+            }
+        </script>
+        
+        <script>
+          function init() {
+            //通过getElementById()方法获取canvas画布
+            const canvas = document.getElementById('webglCanvas');
+            //通过方法getContext()获取WebGL上下文
+            const gl = canvas.getContext('webgl');
+            //顶点着色器源码
+            const vertexShaderSource = document.getElementById('vertexShader').innerText;
+            //片元着色器源码
+            const fragShaderSource = document.getElementById('fragmentShader').innerText;
+            //初始化着色器
+            const program = initShader(gl, vertexShaderSource, fragShaderSource);
+            initBuffer(gl, program);
+            render(gl, program);     
+        }
+
+        function initShader(gl,vertexShaderSource,fragShaderSource){
+            const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+            //创建片元着色器对象
+            const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+            //引入顶点、片元着色器源代码
+            gl.shaderSource(vertexShader,vertexShaderSource);
+            gl.shaderSource(fragmentShader,fragShaderSource);
+            //编译顶点、片元着色器
+            gl.compileShader(vertexShader);
+            gl.compileShader(fragmentShader);
+
+            //创建程序对象program
+            const program = gl.createProgram();
+            //附着顶点着色器和片元着色器到program
+            gl.attachShader(program,vertexShader);
+            gl.attachShader(program,fragmentShader);
+            //链接program
+            gl.linkProgram(program);
+            //使用program
+            gl.useProgram(program);
+            //返回程序program对象
+            return program;
+        }
+
+
+        function initBuffer(gl, program) {
+        
+            const aposLocation = gl.getAttribLocation(program, 'a_position');
+            //创建立方体的顶点坐标数据  
+            //3位置 
+            const data = new Float32Array([
+                //z为0.5时，xOy平面上的四个点坐标
+                //正对面
+                0.5, 0.5, 0.5,
+                -0.5, 0.5, 0.5,
+                -0.5, -0.5, 0.5,
+                0.5, -0.5, 0.5,
+
+                //z为-0.5时，xOy平面上的四个点坐标
+                //后面
+                0.5, 0.5, -0.5,
+                -0.5, 0.5, -0.5,
+                -0.5, -0.5, -0.5,
+                0.5, -0.5, -0.5,
+
+                //上面两组坐标分别对应起来组成一对
+                //下面都是z轴向的前后点连接，xy相同
+
+                0.5, 0.5, 0.5,
+                0.5, 0.5, -0.5,
+
+                -0.5, 0.5, 0.5,
+                -0.5, 0.5, -0.5,
+
+                -0.5, -0.5, 0.5,
+                -0.5, -0.5, -0.5,
+
+                0.5, -0.5, 0.5,
+                0.5, -0.5, -0.5,
+
+            ]);
+
+            //创建缓冲区对象
+            var buffer = gl.createBuffer();
+            //绑定缓冲区对象
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+            //顶点数组data数据传入缓冲区
+            gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+
+            //缓冲区中的数据按照一定的规律传递给位置变量apos
+            gl.vertexAttribPointer(aposLocation, 3, gl.FLOAT, false, 0, 0);
+            //允许数据传递
+            gl.enableVertexAttribArray(aposLocation);
+         
+            // 解除绑定
+            gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+        }
+
+        
+        function tranlate(gl, program,angle) {
+            const rad = angle* Math.PI / 180;
+            const cos = Math.cos(rad);
+            const sin = Math.sin(rad);
+            const mx = gl.getUniformLocation(program, 'mx');
+            const mxArr = new Float32Array([
+                1, 0, 0, 0, 
+                0, cos, -sin, 0,
+                0, sin, cos, 0, 
+                0, 0, 0, 1
+            ])
+            gl.uniformMatrix4fv(mx, false, mxArr);
+            const my = gl.getUniformLocation(program, 'my');
+            const myArr = new Float32Array([
+                cos, 0, -sin, 0,
+                0, 1, 0, 0,
+                sin, 0, cos,
+                0, 0, 0, 0, 1
+            ])
+            
+            gl.uniformMatrix4fv(my, false, myArr);
+        }
+
+
+        function render(gl, program,angle=0) {
+            tranlate(gl,program,angle);
+            //设置清屏颜色为黑色。
+            gl.clearColor(0, 0, 0, 1);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            //LINE_LOOP模式绘制前四个点
+            gl.drawArrays(gl.LINE_LOOP,0,4);
+            //LINE_LOOP模式从第五个点开始绘制四个点
+            gl.drawArrays(gl.LINE_LOOP,4,4);
+            //LINES模式绘制后8个点
+            gl.drawArrays(gl.LINES,8,8);
+
+            requestAnimationFrame(()=>{
+                render(gl,program,angle+1);
+            })
+        }
+        </script>
+    </head>
+    <body onload="init()">
+        <canvas id="webglCanvas" width="500" height="400"></canvas>
+    </body>
+</html>

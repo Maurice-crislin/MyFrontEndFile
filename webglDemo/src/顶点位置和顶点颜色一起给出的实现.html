@@ -1,0 +1,135 @@
+<html>
+    <head>
+        <title>顶点位置和顶点颜色一起给出的实现</title>
+        <script id="vertexShader" type="x-shader/x-vertex">
+            //顶点着色器和片元着色都定义了相同的varying变量v_Color，数据就会从顶点着色器传入到片元着色器。
+            attribute vec4 a_position;
+            attribute vec4 a_color;
+            varying vec4 v_color;
+            void main() {
+                gl_Position = a_position;
+                //插值处理
+                v_color = a_color;
+            }
+        </script>
+        <script id="fragmentShader" type="x-shader/x-fragment">
+            // 所有float类型数据的精度是lowp
+            precision mediump float;
+            varying vec4 v_color;
+            void main() {
+                gl_FragColor = v_color; 
+            }
+        </script>
+        
+        <script>
+          function init() {
+            //通过getElementById()方法获取canvas画布
+            const canvas = document.getElementById('webglCanvas');
+            //通过方法getContext()获取WebGL上下文
+            const gl = canvas.getContext('webgl');
+            //顶点着色器源码
+            const vertexShaderSource = document.getElementById('vertexShader').innerText;
+            //片元着色器源码
+            const fragShaderSource = document.getElementById('fragmentShader').innerText;
+            //初始化着色器
+            const program = initShader(gl, vertexShaderSource, fragShaderSource);
+            let n=initBuffer(gl, program);
+            render(gl,program,n);
+        }
+
+        function initShader(gl,vertexShaderSource,fragShaderSource){
+            const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+            //创建片元着色器对象
+            const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+            //引入顶点、片元着色器源代码
+            gl.shaderSource(vertexShader,vertexShaderSource);
+            gl.shaderSource(fragmentShader,fragShaderSource);
+            //编译顶点、片元着色器
+            gl.compileShader(vertexShader);
+            gl.compileShader(fragmentShader);
+
+            //创建程序对象program
+            const program = gl.createProgram();
+            //附着顶点着色器和片元着色器到program
+            gl.attachShader(program,vertexShader);
+            gl.attachShader(program,fragmentShader);
+            //链接program
+            gl.linkProgram(program);
+            //使用program
+            gl.useProgram(program);
+            //返回程序program对象
+            return program;
+        }
+
+
+
+        function initBuffer(gl, program) {
+            // 顶点坐标和颜色
+            var verticesColors = new Float32Array([    
+                0.0,  0.5,  1.0,  0.0,  0.0, 
+                -0.5, -0.5,  0.0,  1.0,  0.0, 
+                0.5, -0.5,  0.0,  0.0,  1.0, 
+            ]);
+
+            var n = 3; // 点的个数
+            var FSIZE = verticesColors.BYTES_PER_ELEMENT;   //数组中每个元素的字节数
+
+            // 创建缓冲区对象
+            var vertexBuffer = gl.createBuffer();
+            if (!vertexBuffer) {
+                console.log('Failed to create the buffer object');
+                return -1;
+            }
+
+            // 将缓冲区对象绑定到目标
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+            // 向缓冲区对象写入数据
+            gl.bufferData(gl.ARRAY_BUFFER, verticesColors, gl.STATIC_DRAW);
+
+            
+            //获取着色器中attribute变量a_Position的地址 
+            var a_Position = gl.getAttribLocation(program, 'a_position');
+            if (a_Position < 0) {
+                console.log('Failed to get the storage location of a_Position');
+                return -1;
+            }
+            // 将缓冲区对象分配给a_Position变量
+            gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 5*FSIZE, 0);
+            // 连接a_Position变量与分配给它的缓冲区对象
+            gl.enableVertexAttribArray(a_Position);
+
+           
+            //获取着色器中attribute变量a_Color的地址 
+            var a_color = gl.getAttribLocation(program, 'a_color');
+            if(a_color < 0) {
+                console.log('Failed to get the storage location of a_Color');
+                return -1;
+            }
+            // 将缓冲区对象分配给a_Color变量
+            gl.vertexAttribPointer(a_color, 3, gl.FLOAT, false, FSIZE * 5, FSIZE * 2);
+            // 连接a_Color变量与分配给它的缓冲区对象
+            gl.enableVertexAttribArray(a_color);  
+
+           
+           
+           
+            // 解除绑定
+            gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+            return n;
+
+        }
+
+        function render(gl, program, count = 36) {
+            //设置清屏颜色为黑色。
+            gl.clearColor(0, 0, 0, 1);
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+            //gl.enable(webgl.DEPTH_TEST);深度测试，防止遮挡
+            gl.drawArrays(gl.TRIANGLES, 0, count);
+        }
+        </script>
+    </head>
+    <body onload="init()">
+        <canvas id="webglCanvas" width="500" height="400"></canvas>
+    </body>
+</html>
