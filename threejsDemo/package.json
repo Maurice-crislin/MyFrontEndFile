@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "three": "^0.140.2",
+    "typings": "^2.1.1"
+  }
+}
