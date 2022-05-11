@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>My first three.js app</title>
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script type="module">
+        import * as THREE from '../build/three.module.js';
+        import { EffectComposer } from './jsm/postprocessing/EffectComposer.js';
+        import { RenderPass } from './jsm/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from './jsm/postprocessing/UnrealBloomPass.js';
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const geometry = new THREE.SphereGeometry(1, 32, 32);
+
+        const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+
+        const sphere = new THREE.Mesh(geometry, material);
+
+        scene.add(sphere);
+
+        camera.position.z = 5;
+
+
+        const renderScene = new RenderPass(scene, camera);
+        //constructor( resolution, strength, radius, threshold )
+        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 1, 0);
+        bloomPass.renderToScreen = true;
+        // bloomPass.threshold = params.bloomThreshold;
+        // bloomPass.strength = params.bloomStrength;
+        // bloomPass.radius = params.bloomRadius;
+
+        const composer = new EffectComposer(renderer);
+        composer.addPass(renderScene);
+        composer.addPass(bloomPass);
+
+        const animate = function () {
+            requestAnimationFrame(animate);
+
+            sphere.rotation.x += 0.01;
+            //group.rotation.y += 0.01;
+
+            //renderer.render(scene, camera);
+            composer.render();
+        };
+
+        animate();
+    </script>
+</body>
+
+</html>
