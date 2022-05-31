@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>
+            子块绝对+calc
+        </title>
+        <style>
+            #box{
+                width:300px;
+                height: 200px;
+                border:1px solid #000; 
+                position: relative;
+            }
+            #content{
+                position: absolute;
+                width: 100px;
+                height: 120px;
+                background-color: aqua;
+                top:calc(50% - 60px);/*注意符号左右都要有空格*/
+                /*此时的百分号基于的是外盒*/
+                /*我们只要让要居中的div的top属性，与上方的距离是“50%的外框高度+ 50%的div高度”，就可以做到垂直居中*/
+                left:calc(50% - 50px);
+            }
+        </style>
+    </head>
+    <body>
+       <main>
+           egehtajjywtmuehyj5wuk6aFG
+           <br/>
+           egehtajjywtmuehyj5wuk6aFG
+           <br/>
+           sgehjy
+           <div id="box">
+               <div id="content">dsfv</div>
+           </div>
+       </main>
+    </div>
+    </body>
+</html>

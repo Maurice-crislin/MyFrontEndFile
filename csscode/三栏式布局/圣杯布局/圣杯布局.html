@@ -1,0 +1,116 @@
+<html>
+    <head>
+        <title>圣杯</title>
+        <style>
+            /*在container中的三列设为浮动和 左右设为相对定位
+            给外层的container设置 padding-left: 200px;padding-right: 150px;，给left和right空出位置
+            三列的左右两列分别定宽200px和150px，中间部分center设置100%撑满
+            这样因为浮动的关系，center会占据整个container，左右两块区域被挤下去了
+            接下来设置left的 margin-left: -100%;，让left回到上一行 父元素除却padding的最左侧
+            这时left并没有在最左侧，又因为之前已经设置过相对定位，所以通过 left: -200px; 把left拉回最左侧
+            同样的，对于right区域，设置 margin-left: -150px; 把right拉回第一行  父元素除却padding的最右侧
+            这时右侧空出了150px的空间，所以最后设置 left: 150px;把right区域拉到最右侧就行了。*/
+
+            .contanier{
+                /* padding-left: 200px;
+                padding-right: 150px; */
+                margin-left: 200px;
+                margin-right: 150px;
+            }
+            .contanier>*{
+                float: left;
+            }
+
+            .left{
+                
+                position: relative;
+                width: 200px;
+                height: 100vh;
+                margin-left: -100%;
+                left: -200px;
+                background-color: darkcyan;
+            }
+
+            .right{
+                position: relative;
+                width: 150px;
+                height: 100vh;
+                margin-left: -150px;
+                left:150px;
+                background-color: blue;
+            }
+
+            #center{
+                
+                width: 100%;
+                background-color: rgb(51, 17, 98);
+            }
+
+            footer{
+                /*不清除浮动带来的影响，就会被浮动元素完全覆盖住*/
+                clear: both;
+                text-align: center;
+                background-color: aqua;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <main class="contanier">
+            <article id="center">
+                作者：落源z
+                链接：https://www.nowcoder.com/discuss/934635?source_id=profile_reply_nctrack&channel=-1
+                来源：牛客网
+
+                <h1>投递，4.12笔试，4.17三场面试一起</h1>
+
+                <h2>一面（30分钟）</h2>
+                <p>1.自我介绍
+                2.讲讲React怎么渲染的
+                讲了vdom、diff算法、还有新版本的fiber，以及和vue2、vue3中的一些区别
+                3.url从输入浏览器到页面渲染发生了什么
+                4.上述过程有什么可以优化的
+                讲的比较杂，比如link要放在head里，script要放在最后。用文档碎片、display；none，减少回流重绘。强缓存、协商缓存减少资源重复获取。图片懒加载
+                5.平时写项目怎么解决跨域问题的
+                6.说说cookie是干嘛的
+                7.cookie、localstorage、sessionstorage区别
+                8.http、https、websocket的区别
+                9.手撕题：翻转二叉树
+                10.反问
+
+                一面没问项目，给我的感觉是想考察你的知识广度，开始的问题都是比较开放的，然后根据你说到的点细问八股文
+                </p>
+
+                <h2>二面（30分钟）</h2>
+                <p>
+                1.聊聊做的项目
+                2.React Hooks里的useState是同步还是异步的
+                3.React父子组件通信有哪些方法
+                4.Redux原理
+                5.讲讲你对中间件模式的理解
+                6.了解哪些HTML5新特性
+                7.css样式的用法有哪些，优先级，你平时怎么用的
+                8.箭头函数和普通函数的区别
+                9.url从输入浏览器到页面渲染发生了什么（又来？）
+                10.手撕题：数组去重、找数组中重复元素
+                11.反问
+                </p>
+                
+                <h2>三面（20分）</h2>
+                <p>
+                1.介绍下你讲的项目
+                2.项目中遇到过什么难点，怎么解决的
+                3.我看你硕士学的是计算机视觉，为什么想的做前端
+                4.你的导师和同学觉得你是什么样的人
+                5.对工作地点的看法
+                6.职业规划
+                </p>
+            </article>
+            <aside class="left"></aside>
+            <aside class="right"></aside>
+        </main>
+        <footer>
+            尾部自定义自定义自定义自定义尾部自定义自定义自定义自定义尾部自定义自定义自定义自定义尾部自定义自定义自定义自定义
+        </footer>
+    </body>
+</html>

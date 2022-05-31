@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>vertical-align:top</title>
+        <style>
+            main{
+               width: 200px;
+               height: 100px;
+               border: 2px solid black;
+            }
+            div{
+               display: inline-block;
+               vertical-align:top;/*元素及其后代的顶部   与整行的顶部  对齐*/
+               width: 20px;
+               height: 20px;
+               background-color: yellowgreen;
+            }
+
+            .long{
+                height: 60px;
+                background-color: brown;
+            }
+            
+           
+        </style>
+    </head>
+    <body>
+       <main>
+           <div></div>
+           <div class="long">1</div>
+           <div></div>
+           <div></div>
+           <div class="long">2</div>
+           <div></div>
+           <div></div>
+           <div class="long">1</div>
+           <div></div>
+           <div></div>
+           <div class="long">2</div>
+           <div></div>
+       </main>
+    </body>
+</html>

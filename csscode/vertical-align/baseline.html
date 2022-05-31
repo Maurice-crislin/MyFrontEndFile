@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <title>vertical-align:baseline</title>
+        <style>
+            main{
+               width: 200px;
+               height: 100px;
+               border: 2px solid black;
+            }
+            main::after{
+                content: 'x';
+            }
+            div{
+               display: inline-block;
+               vertical-align:baseline;/*默认值 元素基线与父元素基线对齐*/
+               width: 20px;
+               height: 20px;
+               background-color: yellowgreen;
+            }
+            div::after{
+                content: 'x';
+            }
+
+            .long{
+                height: 60px;
+                background-color: brown;
+            }
+            
+           
+        </style>
+    </head>
+    <body>
+        <main>
+            <div></div>
+            <div class="long"></div>
+            <div></div>
+            <div></div>
+            <div class="long"></div>
+            <div></div>
+            <div></div>
+            <div class="long"></div>
+            <div></div>
+            <div></div>
+            <div class="long"></div>
+            <div></div>
+            <div></div>
+            <div class="long"></div>
+            <div></div>
+            <div></div>
+            <div class="long"></div>
+            <div></div>
+            <div></div>
+            <div class="long"></div>
+            <div></div>
+            <div></div>
+            <div class="long"></div>
+            <div></div>
+            <div></div>
+            <div class="long"></div>
+            <div></div>
+            <div></div>
+            <div class="long"></div>
+            <div></div>
+            huvx
+            <div></div>
+            <div></div>
+        </main>
+    </body>
+</html>

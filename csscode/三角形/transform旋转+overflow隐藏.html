@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>transform: rotate 配合 overflow: hidden 绘制三角形</title>
+        <style>
+            #box{
+                width: 141px;
+                height: 100px;
+                overflow: hidden;
+                border: 2px solid black;
+            }
+
+            #triangle1{
+                width: 100px;
+                height: 100px;
+                background-color: aquamarine;
+                transform-origin: left bottom;
+                transform: rotate(45deg); 
+            }
+
+        </style>
+    </head>
+    <body>
+       设置图形的旋转中心在左下角 left bottom，进行旋转，配合 overflow: hidden。
+        <main>
+            <div id="box">
+                <div id="triangle1"></div>
+            </div>
+            
+    
+        </main>
+        
+    </body>
+</html>

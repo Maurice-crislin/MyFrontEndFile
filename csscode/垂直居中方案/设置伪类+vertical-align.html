@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <title>
+            父块开启flex布局
+        </title>
+        <style>
+            #box{
+                width: 300px;
+                height: 300px;
+                border: 1px solid #ccc;
+                text-align: center;/*确保水平居中*/
+            }
+            #box::after{
+                content: '';
+                height: 100%;
+                display: inline-block;
+                vertical-align: middle;
+                /*vertical-align这个属性，这个属性虽然是垂直居中，
+                不过却是指在元素内的所有元素垂直位置互相居中*/
+            }
+            #content{
+                width: 100px;
+                height: 120px;
+                background-color: aqua;
+                vertical-align: middle;/*vertical-align对于行内元素生效*/
+                display: inline-block;/*所以要改成行内盒*/
+            }
+        </style>
+    </head>
+    <body>
+       <main>
+           egehtajjywtmuehyj5wuk6aFG
+           <br/>
+           egehtajjywtmuehyj5wuk6aFG
+           <br/>
+           sgehjy
+           <div id="box">
+               <div id="content">dsfv</div>
+           </div>
+       </main>
+    </div>
+    </body>
+</html>

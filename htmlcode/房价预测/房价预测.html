@@ -1,0 +1,104 @@
+<html>
+   <head>
+      <title>基于BP神经网络的房价预测</title>
+      <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis"></script>   
+   </head>
+   
+   <body>
+      <div id="acc-cont"></div>
+      <div style="text-align: center;margin-bottom: 20px;">
+         <span>样本数据分布</span>
+      </div>
+      <div id="loss-cont"></div>
+      <form name='iForm' onSubmit='formpredict(); return false;')>
+         输入面积: <input name='area' id="area">
+         输入年数: <input name='year' id="year">
+         <input type=submit>
+         <div>
+            结果: <span id="res"></span>
+         </div>
+      </form>
+   </body>
+   <script>
+      const nr_epochs = 1000  // 训练轮数
+      const trainLogs = [];
+      const lossContainer = document.getElementById("loss-cont");
+      const accContainer = document.getElementById("acc-cont");
+      let model, result
+      //使用二个维度的信息
+      const area=[126,88,196,54,54,68,58,56,56,62,50,103,104]
+      const year=[15,26,13,16,28,33,8,15,48,34,22,22,25]
+      const yData=[315,586,568,237,390,190,230,275,490,175,445,626,728]
+      const seriesData = area.map((x, index) => ({
+         x,
+         y: yData[index]
+      }))
+      const data = { values: [seriesData] }
+      const surface = document.getElementById("acc-cont")
+      tfvis.render.scatterplot(surface, data);
+
+      function initTF() {
+      // 1. 建立数据集
+      const xsData = area.map((item, index) => {
+         const array = []
+         array.push(item)
+         array.push(year[index])
+         return array
+      })
+      const xs = tf.tensor2d(xsData, [xsData.length, 2])
+      const ys = tf.tensor2d(yData, [yData.length, 1])
+      
+      xs.print()
+      ys.print()
+      // 2. 定义模型
+      model = tf.sequential({
+         layers: [
+            tf.layers.dense({inputShape: [2], units: 3}),
+            tf.layers.dense({units: 3}),
+            tf.layers.dense({units: 2}),
+            tf.layers.dense({units: 1}),
+            tf.layers.batchNormalization(),
+         ]
+      })
+      
+      model.compile({
+         loss: 'meanSquaredError', 
+         optimizer: 'sgd'
+      })
+      model.summary()
+      let count=0;
+      // 3.训练模型
+      result = model.fit(
+            xs,
+            ys,
+            {
+               epochs: nr_epochs,
+               callbacks: {
+                  onEpochEnd: async (epoch, logs) => {
+                     console.log('loss',logs.loss,`第${++count}轮`);
+                     trainLogs.push({
+                        mse: Math.sqrt(logs.loss),
+                     });
+                     tfvis.show.history(lossContainer, trainLogs, ["mse"]);
+                  }
+               } 
+            }  
+         )
+      }
+      
+      // 4. 预测数据
+      function formpredict() {
+         const area = +document.getElementById("area").value
+         const year = +document.getElementById("year").value
+         
+         const predict_tensor = tf.tensor2d([[area, year]])
+         const result = model.predict(predict_tensor)
+         const value = result.dataSync()[0].toFixed(2)
+
+         document.getElementById('res').innerHTML = `${value} 万`
+      }
+
+      initTF()
+   </script>   
+</html>

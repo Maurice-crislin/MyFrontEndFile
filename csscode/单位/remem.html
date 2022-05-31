@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <title>
+            rem em
+        </title>
+        <style>
+            html{
+                font-size: 20px;
+            }
+            main{
+                font-size: 400px;
+            }
+
+            #test-Rem{
+                width: 2rem;
+                height: 2rem;
+                background-color: antiquewhite;
+                border: 2px solid black;
+            }
+            #test-Em{
+                font-size: 10px;/*em是基于自身的font-size*/
+                width: 2em;
+                height: 2em;
+                background-color: rgb(3, 3, 134);
+                border: 2px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <div>
+                <div id="test-Rem"></div>
+            </div>
+        </main>
+
+        <main>
+            <div>
+                <div id="test-Em"></div>
+            </div>
+        </main>
+       
+    </body>
+</html>

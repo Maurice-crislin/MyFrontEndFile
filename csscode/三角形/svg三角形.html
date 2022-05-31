@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>border三角形</title>
+        <style>
+            
+           
+        </style>
+    </head>
+    <body>
+       
+        <main>
+            svg 定义svg元素<br/>
+            viewBox 定义svg的画布大小，0 0 100 100指的是x、y偏移为0，宽高为100(相对单位)<br/>
+            path 定义一个路径元素<br/>
+            fill="..." 定义路径的填充颜色<br/>
+            d="..." 定义各个顶点的位置<br/>
+            M0,100 移动到点0,100，开始新路径绘制<br/>
+            H100 水平绘制直线至100，该操作等同于L100,100<br/>
+            都是相对单位<br>
+            L50,0 绘制直线至点50,0<br/>
+            Z 闭合子路径<br/>
+
+            <svg viewBox="0 0 100 100">
+                <path fill="yellowgreen" d="M0,50 L100,100 L0,100 Z"></path>
+            </svg>
+        </main>
+    </body>
+</html>

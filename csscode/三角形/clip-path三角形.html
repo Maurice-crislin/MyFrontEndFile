@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>clip-path三角形</title>
+        <style>
+            
+            #triangle1{
+                width: 200px;
+                height: 200px;
+                clip-path: polygon(50% 0, 100% 100%, 0 100%);
+                background-color:blueviolet;
+            }
+
+            #triangle2{
+                width: 200px;
+                height: 200px;
+                clip-path: polygon(50% 0, 100% 100%, 0 100%,50% 50%);
+                /*clip-path 就是使用它来绘制多边形（或圆形、椭圆形等）并将其定位在元素内。实际上，浏览器不会绘制 clip-path 之外的任何区域，因此我们看到的是 clip-path 的边界。*/
+                background-color:rgb(43, 173, 153);
+            }
+            
+        </style>
+    </head>
+    <body>
+       
+        <main>
+            <div id="triangle1"></div>
+            <div id="triangle2"></div>
+            
+        </main>
+        
+    </body>
+</html>
