@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>bfc解决外边距重叠问题</title>
+        <style>
+            .box1{
+                width: 300px;
+                height: 300px;
+                background-color: blue;
+                margin: 40px;
+            }
+            .box2{
+                width: 300px;
+                height: 300px;
+                background-color: rgb(126, 16, 93);
+                margin: 40px;
+            }
+            .con{
+                overflow: hidden;/*触发BFC规范*/
+                border: 80px solid black;
+            }
+        </style>
+    </head>
+    <body>
+       
+        <div class="box1">处于body根元素的BFC</div>
+        <div class="box1">处于body根元素的BFC</div>
+        <!-- 原因:Box垂直方向的距离由margin决定。属于同一个BFC(此时是body根元素的BFC)的两个相邻Box的margin会发生重叠 -->
+        
+        <div class="con">
+            <div class="box2">处于.con元素的BFC</div>
+        </div >
+        <div class="box2">处于body根元素的BFC</div>
+        <div class="box1">处于body根元素的BFC</div>
+    </body>
+</html>

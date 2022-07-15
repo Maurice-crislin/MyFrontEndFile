@@ -1,0 +1,29 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            子页面
+        </title>
+        <style>
+            body{
+                width: 200px;
+                height: 300px;
+                background-color: aqua;
+            }
+        </style>
+        <script>
+            console.log(window.parent);
+            window.parent.document.body.style.backgroundColor='blue';
+            // <iframe src="./childIframe.html" sandbox="allow-scripts allow-same-origin"></iframe>
+            //allow-scripts allow-same-origin下才可运行脚本和访问到父浏览上下文window的属性
+        </script>
+    </head>
+    <body>
+        
+            芜湖子页面
+        
+        
+    </body>
+</html>

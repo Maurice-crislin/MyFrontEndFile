@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>解决多个空元素之间margin重叠</title>
+        <style>
+           
+            .null1{
+                margin-top: 200px;
+                margin-bottom: 300px;
+            }
+            .null2{
+                margin-top: 400px;
+                margin-bottom: 500px;
+            }
+            .bfc{
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        213435  
+        <div class="bfc">
+            <div class="null1"></div>
+        </div>
+        <div class="bfc">
+            <div class="null1"></div>
+        </div>
+        <div class="bfc">
+            <div class="null1"></div>
+        </div>
+        <div class="bfc">
+            <div class="null2"></div>
+        </div>
+        23r3t
+    </body>
+</html>

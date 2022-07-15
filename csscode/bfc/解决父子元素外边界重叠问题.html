@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>解决父元素和子元素的外边界重叠问题</title>
+        <style>
+            main{
+                margin-top: 40px;
+                overflow: hidden;
+                /* border: 2px solid black; *//*非bfc方案，使父子元素的外边距分隔开即可*/
+                width: 400px;
+                height: 400px;
+                background-color: blue;
+            }
+            div{
+                margin-top: 40px;
+                width: 30px;
+                height: 120px;
+                background-color: aqua;
+            }
+
+            
+        </style>
+    </head>
+    <body>
+       
+        <main>
+            <div></div>
+        </main>
+        
+    </body>
+</html>

@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <title>var()</title>
+    <style>
+      /* :root {
+        --main-bg-color: coral;
+        --main-txt-color1: blue;
+        --main-txt-color2: red;
+        --main-txt-color3: yellowgreen;
+        --main-padding: 15px;//加到root上了
+      } */
+      .contanier {
+        --main-bg-color: coral;
+        --main-txt-color1: blue;
+        --main-txt-color2: red;
+        --main-txt-color3: yellowgreen;
+        --main-padding: 15px;
+      }
+
+      #div1 {
+        background-color: var(--main-bg-color);
+        color: var(--main-txt-color1);
+        padding: var(--main-padding);
+      }
+
+      #div2 {
+        background-color: var(--main-bg-color);
+        color: var(--main-txt-color2);
+        padding: var(--main-padding);
+      }
+
+      #div3 {
+        background-color: var(--main-bg-color);
+        color: var(--main-txt-color3);
+        padding: var(--main-padding);
+      }
+    </style>
+  </head>
+  <body>
+    var(custom-property-name, value)
+    <div class="contanier">
+      <div id="div1">blue</div>
+      <div id="div2">red</div>
+      <div id="div3">yellowgreen</div>
+    </div>
+  </body>
+</html>

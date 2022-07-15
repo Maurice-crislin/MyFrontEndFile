@@ -41,7 +41,7 @@ function initGui(){
  * 创建相机
  */
 function initCamera(){
-    //创建透视投影相机，视角45度，画幅比例 宽比高，近平面距离0.1，远平面1000
+    //创建透视投影相机，视角60度，画幅比例 宽比高，近平面距离0.1，远平面1000
     camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
     camera.position.set(100,300,100);//相机位置
     camera.up.y=1;

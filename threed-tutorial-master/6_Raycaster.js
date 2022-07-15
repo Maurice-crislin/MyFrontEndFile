@@ -185,7 +185,7 @@ function choose(e){
     //通过鼠标单击位置标准设备坐标和相机参数计算射线投射器`Raycaster`的射线属性.ray
     rayCaster.setFromCamera(new THREE.Vector2(x,y),camera);
     //返回.intersectObjects()参数中射线选中的网格模型对象
-    // 未选中对象返回空数组[],选中一个数组1个元素，选中两个数组两个元素
+    // 未选中对象返回空数组[],选中一个数组1个元素，选中两个 数组两个元素
     let intersects = rayCaster.intersectObjects(cubeList);
     if(intersects.length>0){
         //选中的第一个设置为透明

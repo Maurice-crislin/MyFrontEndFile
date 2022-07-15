@@ -1,0 +1,32 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            主页面
+        </title>
+    </head>
+    <body>
+        <div>
+           <iframe src="./childIframe.html" sandbox="allow-scripts allow-same-origin" name="childIframe1"></iframe>
+           <iframe src="./childIframe.html" sandbox="allow-scripts allow-same-origin" name="childIframe2"></iframe>
+        </div>
+        <script>
+           
+            
+            let childWindow1 = window.frames.childIframe1;//frames是个伪数组，可以下标访问也可以用name访问
+            //document.getElementsByTagName('iframe')[0].contentWindow也能访问到子框架window对象
+            childWindow1.onload = function(){
+                console.log('window.frames[0]===childWindow1',window.frames[0]===childWindow1);
+                childWindow1.document.body.style.backgroundColor = 'yellowgreen';
+            }
+            
+            let childWindow2= window.frames.childIframe2;//frames是个伪数组，可以下标访问也可以用name访问
+            childWindow2.onload = function(){
+                console.log('window.frames[1]===childWindow2',window.frames[1]===childWindow2);
+                childWindow2.document.body.style.backgroundColor = 'red';
+            }
+        </script>
+    </body>
+</html>

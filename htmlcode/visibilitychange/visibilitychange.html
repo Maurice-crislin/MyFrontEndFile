@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <title>
+            看visibilitychange事件和document.visibilityState状态
+        </title>
+    </head>
+    <body>
+        asgebtngrads
+        <script>
+            let count=0;
+            document.addEventListener('visibilitychange',function(){
+                console.log('当下的document.visibilityState',document.visibilityState,'  ','当下的document.hidden',document.hidden,++count);
+            })
+        </script>
+    </body>
+</html>

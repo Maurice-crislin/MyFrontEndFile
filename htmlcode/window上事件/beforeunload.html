@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>
+            beforeunload事件
+        </title>
+    </head>
+    <body>
+        <script>
+            window.addEventListener('beforeunload', (event) => {
+                // Cancel the event as stated by the standard.
+                event.preventDefault();
+                // Chrome requires returnValue to be set.
+                event.returnValue = 'wuhu 要关闭或者刷新页面吗';
+                return 'wuhu 要关闭或者刷新页面吗';
+            });
+            // 根据规范，要显示确认对话框，事件处理程序需要在事件上调用preventDefault()。
+
+            // 但是请注意，并非所有浏览器都支持此方法，而有些浏览器需要事件处理程序实现两个遗留方法中的一个作为代替：
+
+            // 将字符串分配给事件的returnValue属性
+            // 从事件处理程序返回一个字符串。
+
+            // 某些浏览器过去在确认对话框中显示返回的字符串，从而使事件处理程序能够向用户显示自定义消息。
+            //但是，此方法已被弃用，并且在大多数浏览器中不再支持。
+            //起码chorme不支持了
+
+            
+        </script>
+    </body>
+</html>

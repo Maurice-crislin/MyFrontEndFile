@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <title>template和文档片段DocumentFragment</title>
+  </head>
+  <body>
+    DocumentFragment，文档片段接口，一个没有父对象的最小文档对象。它被作为一个轻量版的
+    Document 使用，就像标准的 document 一样，存储由节点（nodes）组成的文档结构。
+    <p>
+      与 document 相比，最大的区别是 DocumentFragment 不是真实 DOM
+      树的一部分，它的变化不会触发 DOM 树的重新渲染，且不会导致性能等问题。
+    </p>
+    <ul id="list"></ul>
+  </body>
+  <script>
+    const list = document.querySelector("#list");
+    const fruits = ["Apple", "Orange", "Banana", "Melon"];
+
+    var fragment = document.createDocumentFragment();
+    fruits.forEach((item) => {
+      let li = document.createElement("li");
+      li.innerHTML = item;
+      fragment.appendChild(li);
+    });
+    list.appendChild(fragment);
+  </script>
+</html>
